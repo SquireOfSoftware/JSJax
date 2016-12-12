@@ -1,0 +1,42 @@
+/*
+Colour palette from a CJ:
+#fffdfc Snow(White)
+#040300 Black(Black)
+#fcf520 Lemon(Yellow)
+#d51607 Venetian Red(Red)
+#f0ef6e Dolly(Yellow)
+#a52524 Brown(Brown)
+#838283 Grey(Grey)
+#580200 Red Oxide(Red)
+#e7e9a8 Medium Goldenrod(Yellow)
+#300001 Seal Brown
+*/
+
+/* Tags */
+body {
+    background-color: #417643;
+}
+
+/* Classes */
+.actions {
+    bottom: 0;
+    position: absolute;
+    text-align: center;
+    font-size: 5em;
+}
+
+.news {
+    background-color: #000000;
+    color: #fff;
+}
+
+.hold {
+    background-color: #d51607; /* Venetian Red */
+    color: #fff;
+}
+
+.draw {
+    background-color: #fcf520;
+}
+
+/* IDs */
