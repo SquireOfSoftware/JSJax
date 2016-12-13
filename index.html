@@ -6,7 +6,8 @@
     <link rel="shortcut icon" type="image/png" href="favicon2.png"/>
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/game.css" />
+    <link rel="stylesheet" href="css/blackjack/game.css" />
+    <link rel="stylesheet" href="css/messages.css" />
 
     <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/tether.min.js"></script>
@@ -17,6 +18,10 @@
     <div ng-show="gameOver" class="news">
         Game over
     </div>
+    <div class="errors" id="error-message"></div>
+    <div class="success" id="success-message"></div>
+    <div class="loading" id="loading-message"></div>
+    <div class="col-md-12 overlay errors success loading"></div>
     <div class="table col-sm-12">
         <p ng-model="cardsLeft">
             Cards left: {{cardsLeft}}
@@ -45,9 +50,10 @@
 </body>
 
 <script src="js/angular.min.js"></script>
-<script src="js/app.js"></script>
-<script src="js/deck.js"></script>
-<script src="js/decider.js"></script>
-<script src="js/game.js"></script>
+<script src="js/blackjack/app.js"></script>
+<script src="js/blackjack/deck.js"></script>
+<script src="js/blackjack/decider.js"></script>
+<script src="js/messages.js"></script>
+<script src="js/blackjack/game.js"></script>
 
 </html>
