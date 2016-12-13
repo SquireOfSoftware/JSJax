@@ -14,6 +14,7 @@
 </head>
 <body ng-controller="gameCtrl" ng-init="init()">
     <div class="news">News goes here</div>
+    <div ng-show="gameOver" class="news">Game over</div>
     <div class="table col-sm-12">
         <p ng-model="cardsLeft">
             Cards left: {{cardsLeft}}

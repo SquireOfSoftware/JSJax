@@ -3,16 +3,18 @@
  */
 
 angular.module("webApp")
-    .controller("gameCtrl", function($log, $scope, deckService, aiService) {
+    .controller("gameCtrl", function($log, $scope, deckService, playerService) {
 
     $scope.players = [];
     var states = {
         IDLE: 0,
         BUST: 1,
-        HOLD: 2
+        HOLD: 2,
+        WON: 3
     };
     $scope.playerId = 0;
     $scope.cardsLeft = 52;
+    $scope.gameOver = false;
 
     $scope.init = function() {
         // draw first hand
@@ -27,7 +29,7 @@ angular.module("webApp")
 
         for(var x = 0; x < number; x++) {
             var startingHand = deckService.drawInitialHand();
-            $log.debug(startingHand);
+            //$log.debug(startingHand);
             var player = {
                 id: x,
                 difficulty: Math.round(Math.random() * number, 0),
@@ -38,38 +40,60 @@ angular.module("webApp")
 
             $scope.players.push(player);
         }
-        playerId = Math.round(Math.random() * number, 0);
+        $scope.playerId = Math.round(Math.random() * number, 0);
         $log.debug($scope.players);
-        $log.debug("Player ID is: ", playerId);
+        $log.debug("Player ID is: ", $scope.playerId);
     }
 
     $scope.draw = function() {
         //var someoneBusted = false;
         drawRound();
-        $scope.cardsLeft = deckService.cardsLeft();
     };
 
     function drawRound() {
-        $scope.players.forEach(function(player) {
-            if (!deckService.hasNextCard()) {
-                $log.error("No cards left");
-            }
-            else if (player.state === states.IDLE) {
-                var card = deckService.drawCard();
-                player.hand.push(card);
-                player.points += card.numericValue;
-                $log.debug(player.state);
-                if (isBust(player.hand)) {
-                    player.state = states.BUST;
-                    $log.error(player.id + " has busted!");
+        if (!$scope.gameOver && verifyValidPlayers($scope.players)) {
+            $scope.players.forEach(function (player) {
+                if (!deckService.hasNextCard()) {
+                    $log.error("No cards left");
                 }
-            }
-        });
+                else if (player.state === states.IDLE) {
+                    var card = deckService.drawCard();
+                    player.hand.push(card);
+                    player.points += card.numericValue;
+                    //$log.debug(player.state);
+                }
+            });
+            $scope.cardsLeft = deckService.cardsLeft();
+            verifyWinners($scope.players);
+        }
+        else
+            $log.error("Game is over.");
     }
-
+/*
     function isBust(hand) {
         // calculate max value
         // calculate min value
+        var value = verifyHand(hand);
+        return value > 21;
+    }*/
+
+    function verifyWinners(players) {
+        players.forEach(function(player) {
+            //$log.debug(player.id, player.hand);
+            var points = verifyHand(player.hand);
+            if (points == 21) {
+                $log.info(player.id + " has won! with " + points, player.hand);
+                player.state = states.WON;
+                $scope.gameOver = true;
+            }
+            else if (points > 21) {
+                player.state = states.BUST;
+                $log.error(player.id + " has busted!");
+            }
+        })
+    }
+
+    function verifyHand(hand) {
         var value = 0;
         var aces = 0;
         hand.forEach(function(card) {
@@ -80,6 +104,42 @@ angular.module("webApp")
         if (value > 21 && aces > 0) {
             value -= aces * 10;
         }
-        return value > 21;
+        return value;
     }
-});
+
+    // conditions
+        // someone has exactly 21 at the end of the turn
+        // subcondition - suit, colours and smallest hand matter
+        // someone has gone over 21, highest person at the end wins
+        // same sub conditions apply
+
+
+    $scope.hold = function() {
+        if (!$scope.gameOver) {
+            if ($scope.players[$scope.playerId].state === states.IDLE)
+                $scope.players[$scope.playerId].state = states.HOLD;
+            $log.debug("Entering hold");
+            do {
+                drawRound();
+                // game should continue without player input
+                //$log.debug("Round");
+            } while (verifyValidPlayers($scope.players));
+        }
+    };
+
+    function verifyValidPlayers(players) {
+        var validPlayers = 0;
+        players.forEach(function(player) {
+            $log.debug(player.id, player.state, player.hand.length, states.IDLE);
+            if (player.state === states.IDLE)
+                validPlayers++;
+            // atleast one person is active
+        });
+        $log.info(validPlayers + " players are left");
+        if(validPlayers === 0) {
+            $scope.gameOver = true;
+        }
+        return validPlayers > 0;
+    }
+
+    });

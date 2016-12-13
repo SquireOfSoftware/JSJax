@@ -3,7 +3,7 @@
  */
 
 angular.module("webApp")
-.service("aiService", function($log) {
+.service("playerService", function($log) {
     this.getNextMove = function (difficulty) {
         var move = 0;
         return move;
