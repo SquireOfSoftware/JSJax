@@ -37,6 +37,7 @@ body {
 
 .gameOver {
     display: none;
+    background-color: #000000;
 }
 
 .hold {
@@ -54,3 +55,11 @@ body {
 }
 
 /* IDs */
+
+#reloadPage {
+    display: none;
+    text-align: center;
+    background-color: #300001;
+    bottom: 0;
+    font-size: 5em;
+}

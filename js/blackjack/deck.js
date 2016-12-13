@@ -37,6 +37,9 @@ angular.module("webApp").service("deckService", function($log){
             var card = this.drawCard();
             hand.push(card);
             points += card.numericValue;
+            if (card.symbolicValue === "A" &&
+                points > 21)
+                points -= 10;
         }
         return {hand: hand, points: points};
     };

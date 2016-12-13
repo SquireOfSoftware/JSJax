@@ -15,9 +15,7 @@
 </head>
 <body ng-controller="gameCtrl" ng-init="init()">
     <div class="news">
-        <!--<p ng-model="cardsLeft">
-            Cards left: {{cardsLeft}}
-        </p>-->
+
     </div>
     <div ng-show="gameOver" class="gameOver">
         Game over
@@ -47,13 +45,15 @@
             Hold
         </div>
     </div>
+    <div ng-show="gameOver" id="reloadPage" class="gameOver col-md-12" ng-click="init()">
+        Replay?
+    </div>
 </body>
 
 <script src="js/angular.min.js"></script>
 <script src="js/blackjack/app.js"></script>
 <script src="js/blackjack/deck.js"></script>
 <script src="js/blackjack/decider.js"></script>
-<script src="js/messages.js"></script>
 <script src="js/blackjack/game.js"></script>
 
 </html>

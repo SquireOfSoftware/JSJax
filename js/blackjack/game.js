@@ -20,13 +20,16 @@ angular.module("webApp")
     var loadingScreen = jQuery(".loading");
 
     $scope.init = function() {
-        // draw first hand
-
+        var table = jQuery(".table");
+        var gameOverScreen = jQuery(".gameOver");
+        table.hide();
+        gameOverScreen.hide();
+        $scope.gameOver = false;
         deckService.initialiseDeck();
         setupAIPlayers(4);
         $scope.cardsLeft = deckService.cardsLeft();
-        jQuery(".table").toggle();
-        jQuery(".gameOver").toggle();
+        table.toggle();
+        gameOverScreen.toggle();
     };
 
     function setupAIPlayers(number) {
@@ -45,7 +48,6 @@ angular.module("webApp")
             $scope.players.push(player);
         }
         $scope.playerId = Math.floor(Math.random() * number, 0);
-        $log.debug($scope.players);
         $log.debug("Player ID is: ", $scope.playerId);
     }
 
@@ -88,9 +90,7 @@ angular.module("webApp")
     function verifyWinners(players) {
         var idle = 0;
         var highestPointsSoFar = 0;
-        var highestPointPlayers = [];
         players.forEach(function(player) {
-            //$log.debug(player.id, player.hand);
             var points = verifyHand(player.hand);
             player.points = points;
             if (player.state === states.IDLE)
@@ -106,13 +106,12 @@ angular.module("webApp")
             }
             else if (highestPointsSoFar < player.points) {
                 highestPointsSoFar = player.points;
-                highestPointPlayers.push(player.id)
             }
         });
         if (!$scope.gameOver && idle <= 1) {
-            $log.debug(highestPointPlayers);
-            highestPointPlayers.forEach(function(id) {
-                $scope.players[id].state = states.WON;
+            $scope.players.forEach(function(player){
+                if (player.points === highestPointsSoFar)
+                    player.state = states.WON;
             });
             $scope.gameOver = true;
         }
@@ -139,7 +138,6 @@ angular.module("webApp")
         // someone has gone over 21, highest person at the end wins
         // same sub conditions apply
 
-
     $scope.hold = function() {
         if (!$scope.gameOver) {
 
@@ -149,8 +147,6 @@ angular.module("webApp")
             $log.debug("Entering hold");
             do {
                 drawRound();
-                // game should continue without player input
-                //$log.debug("Round");
             } while (!$scope.gameOver && verifyValidPlayers($scope.players));
             loadingScreen.toggle();
         }
@@ -158,9 +154,7 @@ angular.module("webApp")
 
     function verifyValidPlayers(players) {
         var validPlayers = 0;
-        players.forEach(function(player) {
-            //$log.debug(player.id, player.state, player.hand.length, states.IDLE);
-            if (player.state === states.IDLE)
+        players.forEach(function(player) {if (player.state === states.IDLE)
                 validPlayers++;
             // atleast one person is active
         });
