@@ -26,9 +26,14 @@ body {
     font-size: 5em;
 }
 
-.news {
-    background-color: #000000;
-    color: #fff;
+.draw {
+    background-color: #fcf520;
+}
+
+.fullReveal {
+    display: inline-block;
+
+    padding: 10px;
 }
 
 .hold {
@@ -36,8 +41,9 @@ body {
     color: #fff;
 }
 
-.draw {
-    background-color: #fcf520;
+.news {
+    background-color: #000000;
+    color: #fff;
 }
 
 /* IDs */

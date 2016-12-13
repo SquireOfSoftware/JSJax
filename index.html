@@ -14,13 +14,21 @@
 </head>
 <body ng-controller="gameCtrl" ng-init="init()">
     <div class="news">News goes here</div>
-    <div ng-show="gameOver" class="news">Game over</div>
+    <div ng-show="gameOver" class="news">
+        Game over
+    </div>
     <div class="table col-sm-12">
         <p ng-model="cardsLeft">
             Cards left: {{cardsLeft}}
         </p>
+        <div ng-show="gameOver">
+            <div id="{{player.id}}" class="fullReveal" ng-repeat="player in players">
+                <div>Player {{player.id}}</div>
+                <img ng-src="Cards/{{card.suit}}{{card.symbolicValue}}.png" ng-repeat="card in player.hand" />
+            </div>
+        </div>
         <p>
-            You have {{players[playerId].points}} point{{players[playerId].points === 1 ? "" : "s"}}.
+            You have {{players[playerId].points}} points.
         </p>
     </div>
     <div class="hand col-sm-12">
