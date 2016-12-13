@@ -15,8 +15,11 @@
 <body ng-controller="gameCtrl" ng-init="init()">
     <div class="news">News goes here</div>
     <div class="table col-sm-12">
+        <p ng-model="cardsLeft">
+            Cards left: {{cardsLeft}}
+        </p>
         <p>
-            You have {{players[playerId].points}}.
+            You have {{players[playerId].points}} point{{players[playerId].points === 1 ? "" : "s"}}.
         </p>
     </div>
     <div class="hand col-sm-12">
@@ -35,6 +38,7 @@
 <script src="js/angular.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/deck.js"></script>
+<script src="js/decider.js"></script>
 <script src="js/game.js"></script>
 
 </html>

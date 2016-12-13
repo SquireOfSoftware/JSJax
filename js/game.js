@@ -3,7 +3,7 @@
  */
 
 angular.module("webApp")
-    .controller("gameCtrl", function($log, $scope, deckService) {
+    .controller("gameCtrl", function($log, $scope, deckService, aiService) {
 
     $scope.players = [];
     var states = {
@@ -12,12 +12,14 @@ angular.module("webApp")
         HOLD: 2
     };
     $scope.playerId = 0;
+    $scope.cardsLeft = 52;
 
     $scope.init = function() {
         // draw first hand
 
         deckService.initialiseDeck();
         setupAIPlayers(4);
+        $scope.cardsLeft = deckService.cardsLeft();
     };
 
     function setupAIPlayers(number) {
@@ -28,6 +30,7 @@ angular.module("webApp")
             $log.debug(startingHand);
             var player = {
                 id: x,
+                difficulty: Math.round(Math.random() * number, 0),
                 hand: startingHand.hand,
                 state: states.IDLE,
                 points: startingHand.points
@@ -43,6 +46,7 @@ angular.module("webApp")
     $scope.draw = function() {
         //var someoneBusted = false;
         drawRound();
+        $scope.cardsLeft = deckService.cardsLeft();
     };
 
     function drawRound() {
@@ -73,11 +77,9 @@ angular.module("webApp")
             if (card.numericValue === 11) // there should only be one card who is 11
                 aces++;
         });
-        $log.debug(value);
         if (value > 21 && aces > 0) {
             value -= aces * 10;
         }
-        $log.debug(value);
         return value > 21;
     }
 });

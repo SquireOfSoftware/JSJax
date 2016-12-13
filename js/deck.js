@@ -8,16 +8,17 @@ angular.module("webApp").service("deckService", function($log){
     var cardCounter = 0;
 
     this.drawCard = function() {
-        if (cardCounter < deck.length) {
-            var card = deck[cardCounter++];
-            drawnCards.push(card);
-            return card;
-        }
-        return null;
+        var card = deck[cardCounter++];
+        drawnCards.push(card);
+        return card;
     };
 
     this.hasNextCard = function() {
         return cardCounter < deck.length;
+    };
+
+    this.cardsLeft = function() {
+        return deck.length - cardCounter;
     };
 
     // alternatives

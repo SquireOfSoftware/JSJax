@@ -14,7 +14,8 @@ Colour palette from a CJ:
 
 /* Tags */
 body {
-    background-color: #417643;
+    background-color: #417643; /* poker green */
+    color: #fff;
 }
 
 /* Classes */
