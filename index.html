@@ -1,14 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="webApp">
 <head>
     <meta charset="UTF-8">
     <title>BlackJack</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-</head>
-<body>
+    <link rel="shortcut icon" type="image/png" href="favicon2.png"/>
 
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/blackjack/game.css" />
+    <link rel="stylesheet" href="css/messages.css" />
+
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body ng-controller="gameCtrl" ng-init="init()">
+    <div class="news">
+
+    </div>
+    <div ng-show="gameOver" class="gameOver">
+        Game over
+    </div>
+    <div class="display">
+        <div class="col-md-12 overlay errors success loading"></div>
+    </div>
+    <div class="table col-sm-12">
+        <div ng-show="gameOver" class="">
+            <div id="{{player.id}}" class="fullReveal" ng-repeat="player in players">
+                <div>Player {{player.id}} {{player.state}}</div>
+                <img ng-src="Cards/{{card.suit}}{{card.symbolicValue}}.png" ng-repeat="card in player.hand" />
+            </div>
+        </div>
+        <p>
+            You are player {{playerId}} and have {{players[playerId].points}} points.
+        </p>
+    </div>
+    <div class="hand col-sm-12">
+        <img ng-src="Cards/{{card.suit}}{{card.symbolicValue}}.png" ng-repeat="card in players[playerId].hand" />
+    </div>
+    <div class="actions col-xs-12" ng-show="!gameOver">
+        <div class="col-md-6 col-sm-12 draw" ng-click="draw()">
+            Draw
+        </div>
+        <div class="col-md-6 col-sm-12 hold" ng-click="hold()">
+            Hold
+        </div>
+    </div>
+    <div ng-show="gameOver" id="reloadPage" class="gameOver col-md-12" ng-click="init()">
+        Replay?
+    </div>
 </body>
-<script src="js/game.js"></script>
+
+<script src="js/angular.min.js"></script>
+<script src="js/blackjack/app.js"></script>
+<script src="js/blackjack/deck.js"></script>
+<script src="js/blackjack/decider.js"></script>
+<script src="js/blackjack/game.js"></script>
+
 </html>
