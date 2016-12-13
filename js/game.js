@@ -38,27 +38,34 @@ angular.module("webApp")
     }
 
     $scope.draw = function() {
-        var someoneBusted = $scope.players.forEach(function(player) {
-            var someoneBusted = false;
+
+        var someoneBusted = false;
+        $scope.players.forEach(function(player) {
             if (player.state === states.IDLE) {
-                player.hand.push(deckService.drawCard());
-                if (isBust(player.hand)) {
-                    player.state = states.BUST;
-                    someoneBusted = true;
+                var card = deckService.drawCard();
+
+                if (card === null) {
+                    $log.error("No cards left");
+                }
+                else {
+                    player.hand.push(card);
+                    if (isBust(player.hand)) {
+                        player.state = states.BUST;
+                        someoneBusted = true;
+                    }
                 }
             }
-            return someoneBusted;
         });
-        //.then(function(someoneBusted) {
-            if (someoneBusted) {
-                var busted = [];
-                $scope.players.forEach(function(player) {
-                    if (player.state === states.BUST)
-                        busted.push(player.id);
-                });
-                $log.debug("players who busted: ", busted);
-            }
-        //}); // figure out what to do after
+        /*
+        if (someoneBusted) {
+            var busted = [];
+            $scope.players.forEach(function(player) {
+                if (player.state === states.BUST)
+                    busted.push(player.id);
+            });
+            $log.debug("players who busted: ", busted);
+        }*/
+
     };
 
     function isBust(hand) {

@@ -8,9 +8,16 @@ angular.module("webApp").service("deckService", function($log){
     var cardCounter = 0;
 
     this.drawCard = function() {
-        var card = deck[cardCounter++];
-        drawnCards.push(card);
-        return card;
+        if (cardCounter < deck.length) {
+            var card = deck[cardCounter++];
+            drawnCards.push(card);
+            return card;
+        }
+        return null;
+    };
+
+    this.hasNextCard = function() {
+        return cardCounter < deck.length;
     };
 
     // alternatives
@@ -37,33 +44,26 @@ angular.module("webApp").service("deckService", function($log){
                 var card = {
                     suit: getSuit(suit),
                     symbolicValue: getSymbolicValue(value),
-                    numericValue: getNumericValue(value),
-                    //picture: ""
+                    numericValue: getNumericValue(value)
                 };
 
                 if (value === 1)
                     card.numericValue = 11;
-
-                //card.picture = "Cards/" + card.suit + card.symbolicValue + ".png";
 
                 deck.push(card);
             }
         }
         // shuffle
         deck = shuffleDeck(deck);
-        //$log.debug(testDeck(deck));
     };
 
     function shuffleDeck (deckArray) {
-        //$log.info(deckArray);
         for(var x = deckArray.length - 1; x > 0; x--) {
             var position = Math.round(Math.random() * x, 0);
             var temp = deckArray[position];
             deckArray[position] = deckArray[x];
             deckArray[x] = temp;
-            //$log.debug(position);
         }
-        //$log.info(deckArray);
         return deckArray;
     };
 
@@ -95,25 +95,5 @@ angular.module("webApp").service("deckService", function($log){
             case 13: return "K";
             default: return number.toString();
         }
-    }
-
-    function testDeck(deck) {
-        var suits = {
-            hearts: 0,
-            clubs: 0,
-            diamonds: 0,
-            spades: 0,
-            what: 0
-        };
-        deck.forEach(function(card) {
-            switch(card.suit) {
-                case "C": suits.clubs++; break;
-                case "D": suits.diamonds++; break;
-                case "H": suits.hearts++; break;
-                case "S": suits.spades++; break;
-                default: suits.what++;
-            }
-        });
-        $log.debug(suits);
     }
 });
