@@ -32,8 +32,11 @@ body {
 
 .fullReveal {
     display: inline-block;
-
     padding: 10px;
+}
+
+.gameOver {
+    display: none;
 }
 
 .hold {
@@ -44,6 +47,10 @@ body {
 .news {
     background-color: #000000;
     color: #fff;
+}
+
+.table {
+    display: none;
 }
 
 /* IDs */

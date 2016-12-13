@@ -14,44 +14,32 @@
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body ng-controller="gameCtrl" ng-init="init()">
-    <div class="news">News goes here</div>
-    <div ng-show="gameOver" class="news">
+    <div class="news">
+        <!--<p ng-model="cardsLeft">
+            Cards left: {{cardsLeft}}
+        </p>-->
+    </div>
+    <div ng-show="gameOver" class="gameOver">
         Game over
     </div>
-    <div class="display" ng-controller="messageCtrl">
-        <div class="errors" id="error-message">
-            <h2>{{errorMsg.title}}</h2>
-            <div ng-repeat="message in errorMessage.messages">{{message}}</div>
-            <button class="button col-xs-9 col-sm-4" ng-click="hideErrorMessage()">
-                {{errorMsg.buttonText}}
-            </button>
-        </div>
-        <div class="success" id="success-message">
-
-        </div>
-        <div class="loading" id="loading-message">
-
-        </div>
+    <div class="display">
         <div class="col-md-12 overlay errors success loading"></div>
     </div>
     <div class="table col-sm-12">
-        <p ng-model="cardsLeft">
-            Cards left: {{cardsLeft}}
-        </p>
-        <div ng-show="gameOver">
+        <div ng-show="gameOver" class="">
             <div id="{{player.id}}" class="fullReveal" ng-repeat="player in players">
-                <div>Player {{player.id}}</div>
+                <div>Player {{player.id}} {{player.state}}</div>
                 <img ng-src="Cards/{{card.suit}}{{card.symbolicValue}}.png" ng-repeat="card in player.hand" />
             </div>
         </div>
         <p>
-            You have {{players[playerId].points}} points.
+            You are player {{playerId}} and have {{players[playerId].points}} points.
         </p>
     </div>
     <div class="hand col-sm-12">
         <img ng-src="Cards/{{card.suit}}{{card.symbolicValue}}.png" ng-repeat="card in players[playerId].hand" />
     </div>
-    <div class="actions col-xs-12">
+    <div class="actions col-xs-12" ng-show="!gameOver">
         <div class="col-md-6 col-sm-12 draw" ng-click="draw()">
             Draw
         </div>

@@ -8,14 +8,16 @@ angular.module("webApp")
     $scope.players = [];
 
     var states = {
-        IDLE: 0,
-        BUST: 1,
-        HOLD: 2,
-        WON: 3
+        IDLE: "IDLE",
+        BUST: "BUST",
+        HOLD: "HOLD",
+        WON: "WON"
     };
     $scope.playerId = 0;
     $scope.cardsLeft = 52;
     $scope.gameOver = false;
+
+    var loadingScreen = jQuery(".loading");
 
     $scope.init = function() {
         // draw first hand
@@ -23,6 +25,8 @@ angular.module("webApp")
         deckService.initialiseDeck();
         setupAIPlayers(4);
         $scope.cardsLeft = deckService.cardsLeft();
+        jQuery(".table").toggle();
+        jQuery(".gameOver").toggle();
     };
 
     function setupAIPlayers(number) {
@@ -46,7 +50,9 @@ angular.module("webApp")
     }
 
     $scope.draw = function() {
+        loadingScreen.toggle();
         drawRound();
+        loadingScreen.toggle();
     };
 
     function drawRound() {
@@ -80,10 +86,16 @@ angular.module("webApp")
     }
 
     function verifyWinners(players) {
+        var idle = 0;
+        var highestPointsSoFar = 0;
+        var highestPointPlayers = [];
         players.forEach(function(player) {
             //$log.debug(player.id, player.hand);
             var points = verifyHand(player.hand);
             player.points = points;
+            if (player.state === states.IDLE)
+                idle++;
+
             if (player.state === states.BUST) {
 
             }
@@ -92,7 +104,19 @@ angular.module("webApp")
                 player.state = states.WON;
                 $scope.gameOver = true;
             }
+            else if (highestPointsSoFar < player.points) {
+                highestPointsSoFar = player.points;
+                highestPointPlayers.push(player.id)
+            }
         });
+        if (!$scope.gameOver && idle <= 1) {
+            $log.debug(highestPointPlayers);
+            highestPointPlayers.forEach(function(id) {
+                $scope.players[id].state = states.WON;
+            });
+            $scope.gameOver = true;
+        }
+
     }
 
     function verifyHand(hand) {
@@ -118,6 +142,8 @@ angular.module("webApp")
 
     $scope.hold = function() {
         if (!$scope.gameOver) {
+
+            loadingScreen.toggle();
             if ($scope.players[$scope.playerId].state === states.IDLE)
                 $scope.players[$scope.playerId].state = states.HOLD;
             $log.debug("Entering hold");
@@ -126,7 +152,7 @@ angular.module("webApp")
                 // game should continue without player input
                 //$log.debug("Round");
             } while (!$scope.gameOver && verifyValidPlayers($scope.players));
-
+            loadingScreen.toggle();
         }
     };
 
