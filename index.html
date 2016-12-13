@@ -18,10 +18,22 @@
     <div ng-show="gameOver" class="news">
         Game over
     </div>
-    <div class="errors" id="error-message"></div>
-    <div class="success" id="success-message"></div>
-    <div class="loading" id="loading-message"></div>
-    <div class="col-md-12 overlay errors success loading"></div>
+    <div class="display" ng-controller="messageCtrl">
+        <div class="errors" id="error-message">
+            <h2>{{errorMsg.title}}</h2>
+            <div ng-repeat="message in errorMessage.messages">{{message}}</div>
+            <button class="button col-xs-9 col-sm-4" ng-click="hideErrorMessage()">
+                {{errorMsg.buttonText}}
+            </button>
+        </div>
+        <div class="success" id="success-message">
+
+        </div>
+        <div class="loading" id="loading-message">
+
+        </div>
+        <div class="col-md-12 overlay errors success loading"></div>
+    </div>
     <div class="table col-sm-12">
         <p ng-model="cardsLeft">
             Cards left: {{cardsLeft}}

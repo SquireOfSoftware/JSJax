@@ -3,51 +3,59 @@
  */
 
 angular.module("webApp")
-.controller("messageCtrl",['$scope', function($log, $scope) {
-    $scope.errors = {
+.controller("messageCtrl", function($scope, $log) {
+    $scope.errorMessage = {
         title: "",
         messages: [],
         buttonText: ""
     };
 
-    $scope.successes = {
+    $scope.successMessage = {
         title: "",
         messages: [],
         buttonText: ""
     };
 
-    $scope.loading = {
+    $scope.loadingMessage = {
         title: "Loading",
         messages: []
     };
 
     $scope.$on('addErrorMessage', function(message) {
-        $scope.errors.messages.push(message);
+        $scope.errorMessage.messages.push(message);
     });
 
-    $scope.addSuccessMessage = function(message) {
-        $scope.successes.messages.push(message);
-    };
+    $scope.$on('clearErrorMessage', function(message) {
+        $scope.errorMessage.messages = [];
+    });
 
-    $scope.showErrorMessage = function() {
+    $scope.$on('addSuccessMessage', function(message) {
+        $scope.successMessage.messages.push(message);
+    });
+
+    $scope.$on('clearSuccessMessage', function(message) {
+        $scope.successMessage.messages = [];
+    });
+
+    $scope.$on('showErrorMessage', function() {
         jQuery(".loading").hide();
         jQuery(".errors").show();
-    };
+    });
 
-    $scope.hideErrorMessage = function() {
+    $scope.$on('hideErrorMessage', function() {
         jQuery(".errors").hide();
-    };
+    });
 
-    $scope.showSuccessMessage = function() {
+    $scope.$on('showSuccessMessage', function() {
         jQuery(".loading").hide();
         jQuery(".success").show();
-    };
+    });
 
-    $scope.hideSuccessMessage = function() {
+    $scope.$on('hideSuccessMessage', function() {
         jQuery(".success").hide();
-    };
+    });
 
-    $scope.toggleLoadingScreen = function() {
+    $scope.$on('toggleLoadingScreen', function() {
         jQuery(".loading").toggle();
-    };
-}]);
+    });
+});

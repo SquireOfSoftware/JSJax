@@ -4,8 +4,19 @@
 
 angular.module("webApp")
 .service("playerService", function($log) {
-    this.getNextMove = function (difficulty) {
-        var move = 0;
-        return move;
+    this.doesPlayerHold = function (player) {
+        var willHold = true; // hold is true, draw is false
+
+        // get hand value
+        var points = 21 - player.points;
+
+        // get risk
+        var risk = Math.round((player.risk * Math.random()), 0);
+
+        //$log.debug("id", player.id, "risk:", risk);
+        if (risk === 1 && points > 4)
+            willHold = false;
+
+        return willHold;
     }
 });

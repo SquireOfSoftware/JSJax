@@ -32,7 +32,7 @@ angular.module("webApp")
             var startingHand = deckService.drawInitialHand();
             var player = {
                 id: x,
-                difficulty: Math.round(Math.random() * number, 0),
+                risk: Math.random(),
                 hand: startingHand.hand,
                 state: states.IDLE,
                 points: startingHand.points
@@ -52,6 +52,13 @@ angular.module("webApp")
     function drawRound() {
         if (!$scope.gameOver) {
             $scope.players.forEach(function (player) {
+
+                if (player.state === states.IDLE &&
+                    player.id !== $scope.playerId &&
+                    playerService.doesPlayerHold(player)) {
+                    player.state = states.HOLD;
+                }
+
                 if (!deckService.hasNextCard()) {
                     $log.error("No cards left");
                 }
@@ -76,6 +83,7 @@ angular.module("webApp")
         players.forEach(function(player) {
             //$log.debug(player.id, player.hand);
             var points = verifyHand(player.hand);
+            player.points = points;
             if (player.state === states.BUST) {
 
             }
@@ -117,7 +125,7 @@ angular.module("webApp")
                 drawRound();
                 // game should continue without player input
                 //$log.debug("Round");
-            } while (verifyValidPlayers($scope.players));
+            } while (!$scope.gameOver && verifyValidPlayers($scope.players));
 
         }
     };
