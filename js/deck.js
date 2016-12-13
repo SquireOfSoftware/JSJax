@@ -29,13 +29,15 @@ angular.module("webApp").service("deckService", function($log){
 
     // could try fisher-yates - create the deck then randomly pick position to swap things in
 
-
     this.drawInitialHand = function() {
         var hand = [];
+        var points = 0;
         for(var x = 0; x < 2; x++) {
-            hand.push(this.drawCard());
+            var card = this.drawCard();
+            hand.push(card);
+            points += card.numericValue;
         }
-        return hand;
+        return {hand: hand, points: points};
     };
 
     this.initialiseDeck = function() {

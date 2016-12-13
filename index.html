@@ -15,7 +15,9 @@
 <body ng-controller="gameCtrl" ng-init="init()">
     <div class="news">News goes here</div>
     <div class="table col-sm-12">
-
+        <p>
+            You have {{players[playerId].points}}.
+        </p>
     </div>
     <div class="hand col-sm-12">
         <img ng-src="Cards/{{card.suit}}{{card.symbolicValue}}.png" ng-repeat="card in players[playerId].hand" />

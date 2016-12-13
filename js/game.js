@@ -24,10 +24,13 @@ angular.module("webApp")
         $scope.players = [];
 
         for(var x = 0; x < number; x++) {
+            var startingHand = deckService.drawInitialHand();
+            $log.debug(startingHand);
             var player = {
                 id: x,
-                hand: deckService.drawInitialHand(),
-                state: states.IDLE
+                hand: startingHand.hand,
+                state: states.IDLE,
+                points: startingHand.points
             };
 
             $scope.players.push(player);
@@ -38,35 +41,27 @@ angular.module("webApp")
     }
 
     $scope.draw = function() {
+        //var someoneBusted = false;
+        drawRound();
+    };
 
-        var someoneBusted = false;
+    function drawRound() {
         $scope.players.forEach(function(player) {
-            if (player.state === states.IDLE) {
+            if (!deckService.hasNextCard()) {
+                $log.error("No cards left");
+            }
+            else if (player.state === states.IDLE) {
                 var card = deckService.drawCard();
-
-                if (card === null) {
-                    $log.error("No cards left");
-                }
-                else {
-                    player.hand.push(card);
-                    if (isBust(player.hand)) {
-                        player.state = states.BUST;
-                        someoneBusted = true;
-                    }
+                player.hand.push(card);
+                player.points += card.numericValue;
+                $log.debug(player.state);
+                if (isBust(player.hand)) {
+                    player.state = states.BUST;
+                    $log.error(player.id + " has busted!");
                 }
             }
         });
-        /*
-        if (someoneBusted) {
-            var busted = [];
-            $scope.players.forEach(function(player) {
-                if (player.state === states.BUST)
-                    busted.push(player.id);
-            });
-            $log.debug("players who busted: ", busted);
-        }*/
-
-    };
+    }
 
     function isBust(hand) {
         // calculate max value
@@ -74,13 +69,15 @@ angular.module("webApp")
         var value = 0;
         var aces = 0;
         hand.forEach(function(card) {
-            value += card.value;
-            if (card.value === 11) // there should only be one card who is 11
+            value += card.numericValue;
+            if (card.numericValue === 11) // there should only be one card who is 11
                 aces++;
         });
+        $log.debug(value);
         if (value > 21 && aces > 0) {
             value -= aces * 10;
         }
+        $log.debug(value);
         return value > 21;
     }
 });
