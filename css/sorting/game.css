@@ -39,7 +39,6 @@ body {
 }
 
 #top {
-
 }
 
 #left {
@@ -60,5 +59,21 @@ body {
     position: absolute;
     display: none;
     left: 0
+}
+
+#footerCover {
+    background: #417643;
+    bottom: 0;
+    position: absolute;
+    height: 7em;
+    width: 100%;
+
+    /* webkit example */
+    background: -webkit-linear-gradient(top,rgba(255,0,0,0),rgba(65,118,67,1),rgba(65,118,67,1));
+
+    /* mozilla example - FF3.6+ */
+    background-image: -moz-linear-gradient(
+            rgba(255,0,0,0) 0%, rgba(65,118,67,1) 95%
+    );
 }
 

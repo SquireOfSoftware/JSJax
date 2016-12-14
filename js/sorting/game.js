@@ -32,13 +32,13 @@ webApp.controller("gameCtrl", function($scope, $log, deckService, suitService) {
     };
 
     $scope.init = function() {
-        scoreboard.toggle();
+        scoreboard.hide();
         $scope.gameOver = false;
         deckService.initialiseDeck();
         setupTable();
         setupSuits();
         setupScore();
-        scoreboard.toggle();
+        scoreboard.show();
     };
 
     function setupTable() {
@@ -63,9 +63,10 @@ webApp.controller("gameCtrl", function($scope, $log, deckService, suitService) {
             averageResponse: 0,
             pointsGained: 0,
             totalPoints: 0,
-            totalResponse: 0
+            totalResponse: 0,
+            sumResponses: 0
         };
-    };
+    }
 
     function getNextCard() {
         pastCards.push($scope.cards.current);
