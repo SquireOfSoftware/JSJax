@@ -13,24 +13,26 @@
     <script src="../js/bootstrap.min.js"></script>
 </head>
 <body ng-controller="gameCtrl" ng-init="init()" ng-keydown="pressedKey($event)">
-    <div id="top">
+    <div id="top" class="border">
+        <div>{{pile.top.points}}</div>
         <img class="suit" ng-src="../Cards/{{pile.top.symbol}}.png" />
-        {{pile.top.points}}
     </div>
-    <div id="left">
+    <div id="left" class="border">
+        <div>{{pile.left.points}}</div>
         <img class="suit" ng-src="../Cards/{{pile.left.symbol}}.png" />
-        {{pile.left.points}}
     </div>
-    <div id="right">
+    <div id="right" class="border">
+        <div>{{pile.right.points}}</div>
         <img class="suit" ng-src="../Cards/{{pile.right.symbol}}.png" />
-        {{pile.right.points}}
     </div>
-    <div id="bottom">
+    <div id="bottom" class="border">
+        <div>{{pile.bottom.points}}</div>
         <img class="suit" ng-src="../Cards/{{pile.bottom.symbol}}.png" />
-        {{pile.bottom.points}}
     </div>
-    <div class="cards" id="cover">
+    <div ng-show="gameOver" class="cards" id="cover">
+        <div class="col-md-12">Game over</div>
         <img ng-src="../Cards/Cover.png" />
+
     </div>
     <div class="cards" id="next">
         <img ng-show="cards.next !== null" ng-src="../Cards/{{cards.next.suit}}{{cards.next.symbolicValue}}.png" />
@@ -42,5 +44,6 @@
 <script src="../js/angular.min.js"></script>
 <script src="../js/app.js"></script>
 <script src="../js/blackjack/deck.js"></script>
+<script src="../js/sorting/suits.js"></script>
 <script src="../js/sorting/game.js"></script>
 </html>

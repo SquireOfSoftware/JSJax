@@ -7,6 +7,11 @@ body {
 }
 
 /* Classes */
+.border {
+    position: absolute;
+    text-align: center;
+}
+
 .cards {
     -webkit-transform: translate(0%, 50%);
     -moz-transform: translate(0%, 50%);
@@ -24,14 +29,30 @@ body {
 .suit {
     height: 5em;
     width: auto;
+    display: block;
+    text-align: center;
 }
 
 /* IDs */
-#current {
+#cover {
+    text-align: center;
+}
+
+#top {
 
 }
 
-#next {
+#left {
+    top: 40%;
+    left: 0;
+}
 
+#right {
+    top: 40%;
+    right: 0;
+}
+
+#bottom {
+    bottom: 0;
 }
 
