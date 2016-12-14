@@ -16,6 +16,9 @@ Colour palette from a CJ:
 body {
     background-color: #417643; /* poker green */
     color: #fff;
+    border-width: 15px;
+    border-style: solid;
+    border-color: #000;
 }
 
 /* Classes */

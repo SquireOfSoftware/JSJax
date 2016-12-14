@@ -71,7 +71,7 @@ angular.module("webApp").service("deckService", function($log){
             deckArray[x] = temp;
         }
         return deckArray;
-    };
+    }
 
     function getSuit(number) {
         switch(number) {
