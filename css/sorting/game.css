@@ -1,0 +1,29 @@
+/* Tags */
+body {
+    background-color: #417643; /* poker green */
+    color: #fff;
+    border-color: #000;
+    border-radius: 10em;
+}
+
+/* Classes */
+.border {
+    background-color: #000;
+}
+
+/* IDs */
+#tableFooter {
+    height: 1em;
+}
+
+#tableHeader {
+
+}
+
+#tableLeft {
+
+}
+
+#tableRight {
+
+}
