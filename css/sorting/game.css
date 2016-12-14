@@ -56,3 +56,9 @@ body {
     bottom: 0;
 }
 
+#scoreboard {
+    position: absolute;
+    display: none;
+    left: 0
+}
+

@@ -13,6 +13,28 @@
     <script src="../js/bootstrap.min.js"></script>
 </head>
 <body ng-controller="gameCtrl" ng-init="init()" ng-keydown="pressedKey($event)">
+    <div id="scoreboard">
+        <div id="lastResponse">
+            Last response: {{score.lastResponse}} ms
+        </div>
+        <div id="averageResponse">
+            Average response time: {{score.averageResponse}} ms
+        </div>
+        <div id="pointsGained">
+            Points gained: {{score.pointsGained}}
+        </div>
+        <div id="totalPoints">
+            Total possible points: {{score.totalPoints}}
+        </div>
+    </div>
+
+    <div class="cards" id="next">
+        <img ng-show="cards.next !== null" ng-src="../Cards/{{cards.next.suit}}{{cards.next.symbolicValue}}.png" />
+    </div>
+    <div class="cards" id="current">
+        <img ng-show="cards.current !== null" ng-src="../Cards/{{cards.current.suit}}{{cards.current.symbolicValue}}.png" />
+    </div>
+
     <div id="top" class="border">
         <div>{{pile.top.points}}</div>
         <img class="suit" ng-src="../Cards/{{pile.top.symbol}}.png" />
@@ -29,16 +51,10 @@
         <div>{{pile.bottom.points}}</div>
         <img class="suit" ng-src="../Cards/{{pile.bottom.symbol}}.png" />
     </div>
+    <div id="footerCover"></div>
     <div ng-show="gameOver" class="cards" id="cover">
         <div class="col-md-12">Game over</div>
         <img ng-src="../Cards/Cover.png" />
-
-    </div>
-    <div class="cards" id="next">
-        <img ng-show="cards.next !== null" ng-src="../Cards/{{cards.next.suit}}{{cards.next.symbolicValue}}.png" />
-    </div>
-    <div class="cards" id="current">
-        <img ng-show="cards.current !== null" ng-src="../Cards/{{cards.current.suit}}{{cards.current.symbolicValue}}.png" />
     </div>
 </body>
 <script src="../js/angular.min.js"></script>

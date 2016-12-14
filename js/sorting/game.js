@@ -19,12 +19,26 @@ webApp.controller("gameCtrl", function($scope, $log, deckService, suitService) {
     };
 
     $scope.gameOver = false;
+    var scoreboard = jQuery("#scoreboard");
+
+    $scope.score = {
+        startTime: Date.now(),
+        lastResponse: 0,
+        averageResponse: 0,
+        pointsGained: 0,
+        totalPoints: 0,
+        totalResponse: 0,
+        sumResponses: 0
+    };
 
     $scope.init = function() {
+        scoreboard.toggle();
         $scope.gameOver = false;
         deckService.initialiseDeck();
         setupTable();
         setupSuits();
+        setupScore();
+        scoreboard.toggle();
     };
 
     function setupTable() {
@@ -41,6 +55,17 @@ webApp.controller("gameCtrl", function($scope, $log, deckService, suitService) {
             bottom: suits[3]
         };
     }
+
+    function setupScore() {
+        $scope.score = {
+            startTime: Date.now(),
+            lastResponse: 0,
+            averageResponse: 0,
+            pointsGained: 0,
+            totalPoints: 0,
+            totalResponse: 0
+        };
+    };
 
     function getNextCard() {
         pastCards.push($scope.cards.current);
@@ -70,6 +95,7 @@ webApp.controller("gameCtrl", function($scope, $log, deckService, suitService) {
                 break;
             default:
         }
+        recordScore();
     }
 
     function addCard(pile) {
@@ -78,6 +104,7 @@ webApp.controller("gameCtrl", function($scope, $log, deckService, suitService) {
             pile.cards.push(currentCard);
             if (pile.suit === currentCard.suit) {
                 pile.points++;
+                $scope.score.pointsGained++;
             }
         }
         if (deckService.hasNextCard())
@@ -91,5 +118,14 @@ webApp.controller("gameCtrl", function($scope, $log, deckService, suitService) {
             $scope.gameOver = true;
             $log.error("Game over");
         }
+        $scope.score.totalPoints++;
+    }
+
+    function recordScore() {
+        $scope.score.lastResponse = Date.now() - $scope.score.startTime;
+        $scope.score.startTime = Date.now();
+        $scope.score.totalResponse++;
+        $scope.score.sumResponses += $scope.score.lastResponse;
+        $scope.score.averageResponse = Math.round($scope.score.sumResponses / $scope.score.totalResponse, 1);
     }
 });
