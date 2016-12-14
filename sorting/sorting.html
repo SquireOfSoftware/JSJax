@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="webApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorting</title>
+    <link rel="shortcut icon" type="image/png" href="../favicon2.png"/>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/sorting/game.css" />
+
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/tether.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</head>
+<body ng-controller="gameCtrl" ng-init="init()" ng-keydown="pressedKey($event)">
+    <div id="restart" ng-show="gameOver" ng-click="init()">Restart?</div>
+    <div id="scoreboard">
+        <div id="lastResponse">
+            Last reaction: {{score.lastResponse}} ms
+        </div>
+        <div id="averageResponse">
+            Ave reaction: {{score.averageResponse}} ms
+        </div>
+        <div id="pointsGained">
+            Points gained: {{score.pointsGained}}
+        </div>
+        <div id="totalPoints">
+            Total points: {{score.totalPoints}}
+        </div>
+    </div>
+
+    <div class="cards" id="next">
+        <img ng-show="cards.next !== null" ng-src="../Cards/{{cards.next.suit}}{{cards.next.symbolicValue}}.png" />
+    </div>
+    <div class="cards" id="current">
+        <img ng-show="cards.current !== null" ng-src="../Cards/{{cards.current.suit}}{{cards.current.symbolicValue}}.png" />
+    </div>
+
+    <div ng-show="gameOver" class="cards" id="cover">
+        <div class="col-md-12">Game over</div>
+        <img ng-src="../Cards/Cover.png" />
+    </div>
+
+    <div id="footerCover" class="col-md-12"></div>
+
+    <div id="top" class="border">
+        <div>{{pile.top.points}}</div>
+        <img class="suit" ng-src="../Cards/{{pile.top.symbol}}.png" />
+    </div>
+    <div id="left" class="border">
+        <div>{{pile.left.points}}</div>
+        <img class="suit" ng-src="../Cards/{{pile.left.symbol}}.png" />
+    </div>
+    <div id="right" class="border">
+        <div>{{pile.right.points}}</div>
+        <img class="suit" ng-src="../Cards/{{pile.right.symbol}}.png" />
+    </div>
+    <div id="bottom" class="border">
+        <div>{{pile.bottom.points}}</div>
+        <img class="suit" ng-src="../Cards/{{pile.bottom.symbol}}.png" />
+    </div>
+
+
+</body>
+<script src="../js/angular.min.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/blackjack/deck.js"></script>
+<script src="../js/sorting/suits.js"></script>
+<script src="../js/sorting/game.js"></script>
+</html>
