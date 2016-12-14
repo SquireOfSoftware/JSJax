@@ -102,12 +102,20 @@ angular.module("webApp")
 
     function addCard(pile) {
         var currentCard = $scope.cards.current;
-        pile.cards.push(currentCard);
-        if (pile.suit === currentCard.suit) {
-            pile.points++;
+        if (currentCard !== null) {
+            pile.cards.push(currentCard);
+            if (pile.suit === currentCard.suit) {
+                pile.points++;
+            }
         }
-        getNextCard();
+        if (deckService.hasNextCard())
+            getNextCard();
+        else if ($scope.cards.current !== null) { // no cards left
+            pastCards.push($scope.cards.current);
+            $scope.cards.current = $scope.cards.next;
+            $scope.cards.next = null;
 
+        }
         if($scope.cards.current === null){
             $scope.gameOver = true;
             $log.error("Game over")
