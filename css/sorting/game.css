@@ -2,12 +2,36 @@
 body {
     background-color: #417643; /* poker green */
     color: #fff;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
 }
 
 /* Classes */
+.cards {
+    -webkit-transform: translate(0%, 50%);
+    -moz-transform: translate(0%, 50%);
+    -ms-transform: translate(0%, 50%);
+    -o-transform: translate(0%, 50%);
+    transform: translate(0%, 50%);
+    position: absolute;
+}
+
+.cards img {
+    height: 20em;
+    width: auto;
+}
+
+.suit {
+    height: 5em;
+    width: auto;
+}
 
 /* IDs */
 #current {
-    vertical-align: middle;
+
 }
+
+#next {
+
+}
+

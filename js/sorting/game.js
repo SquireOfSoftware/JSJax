@@ -1,8 +1,9 @@
 /**
  * Created by JarvisWalker on 14/12/16.
  */
-angular.module("webApp")
-.controller("gameCtrl", function($scope, $log, deckService) {
+var webApp = angular.module("webApp");
+
+webApp.controller("gameCtrl", function($scope, $log, deckService) {
     $scope.cards = {
         current: {},
         next: {}
@@ -36,6 +37,7 @@ angular.module("webApp")
         for(var x = 0; x < 4; x++) {
             suits.push({
                 suit: getSuit(x),
+                symbol: getSuitSymbol(x),
                 points: 0,
                 cards: []
             });
@@ -66,6 +68,16 @@ angular.module("webApp")
             case 1: return "D";
             case 2: return "H";
             case 3: return "S";
+            default: return " ";
+        }
+    }
+
+    function getSuitSymbol(number) {
+        switch(number) {
+            case 0: return "Club";
+            case 1: return "Diamond";
+            case 2: return "Heart";
+            case 3: return "Spade";
             default: return " ";
         }
     }
@@ -114,11 +126,16 @@ angular.module("webApp")
             pastCards.push($scope.cards.current);
             $scope.cards.current = $scope.cards.next;
             $scope.cards.next = null;
-
         }
         if($scope.cards.current === null){
             $scope.gameOver = true;
-            $log.error("Game over")
+            $log.error("Game over");
         }
     }
+});
+
+webApp.filter("unsafe", function($sce) {
+    return function(value) {
+        return $sce.trustAsHtml(value);
+    };
 });
